@@ -8,25 +8,25 @@ from cinema.serializers import MovieSerializer
 
 
 @api_view(["GET", "POST"])
-def cinema_list(request):
+def movie_list(request):
     if request.method == "GET":
-        cinemas = Movie.objects.all()
-        serializer = MovieSerializer(cinemas, many=True)
+        movies = Movie.objects.all()
+        serializer = MovieSerializer(movies, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(["GET", "PUT", "DELETE"])
-def cinema_details(request, pk):
-    cinema = get_object_or_404(Movie, pk=pk)
+def movie_details(request, pk):
+    movie = get_object_or_404(Movie, pk=pk)
     if request.method == "GET":
-        serializer = MovieSerializer(cinema)
+        serializer = MovieSerializer(movie)
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == "PUT":
-        serializer = MovieSerializer(cinema, data=request.data)
+        serializer = MovieSerializer(movie, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
     else:
-        cinema.delete()
+        movie.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
